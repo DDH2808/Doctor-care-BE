@@ -2,7 +2,7 @@ import express from "express";
 import bodyParser from "body-parser"; 
 import viewEngine from "./config/viewEngine";
 import initWebRoutes from "./route/web";
-// import connectDB from "./config/conectDB";
+import connectDB from "./config/connectDB";
 // import cors from "cors";
 
 require("dotenv").config(); 
@@ -16,7 +16,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 viewEngine(app);
 initWebRoutes(app);
 
-// connectDB();
+connectDB();
 
 const port = process.env.PORT || 4000; //Port === undefined => Port = 4000
 

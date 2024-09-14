@@ -1,6 +1,6 @@
 import db from "../models/index";
-import user from '../models/user';
-import CRUDService from '../services/CRUDService'
+import user from "../models/user";
+import CRUDService from "../services/CRUDService";
 
 const getHomePage = async (req, res) => {
   try {
@@ -22,13 +22,23 @@ const getCRUD = (req, res) => {
 const postCRUD = async (req, res) => {
   const message = await CRUDService.createNewUser(req.body);
   console.log(message);
-  return res.send('Post CRUD from server');
+  return res.send("Post CRUD from server");
+};
 
-}
+const displayGetCRUD = async (req, res) => {
+  const data = await CRUDService.getAllUser();
+  console.log("===============");
+  console.log(data);
+  console.log("===============");
+  return res.render("displayCRUD.ejs", {
+    dataTable: data,
+  });
+};
 
 module.exports = {
   getHomePage: getHomePage,
   getAboutPage: getAboutPage,
   getCRUD: getCRUD,
   postCRUD: postCRUD,
+  displayGetCRUD: displayGetCRUD,
 };

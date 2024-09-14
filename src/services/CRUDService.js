@@ -25,20 +25,33 @@ const createNewUser = async (data) => {
 };
 
 const hashUserPassword = (password) => {
-    return new Promise(async (resolve, reject) => {
-        try {
-            //lưu ý, truyền vào đúng password cần hash
-            // const hashPassWord = await bcrypt.hashSync("B4c0/\/", salt); => copy paste mà ko edit nè
-            const hashPassWord = await bcrypt.hashSync(password, salt);
+  return new Promise(async (resolve, reject) => {
+    try {
+      //lưu ý, truyền vào đúng password cần hash
+      // const hashPassWord = await bcrypt.hashSync("B4c0/\/", salt); => copy paste mà ko edit nè
+      const hashPassWord = await bcrypt.hashSync(password, salt);
 
-            resolve(hashPassWord);
-        } catch (e) {
-            reject(e);
-        }
+      resolve(hashPassWord);
+    } catch (e) {
+      reject(e);
+    }
+  });
+};
 
-    })
-}
+const getAllUser = () => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const users = await db.User.findAll({
+        raw: true,
+      });
+      resolve(users);
+    } catch (e) {
+      reject(e);
+    }
+  });
+};
 
 module.exports = {
   createNewUser: createNewUser,
+  getAllUser: getAllUser,
 };

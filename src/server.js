@@ -3,12 +3,12 @@ import bodyParser from "body-parser";
 import viewEngine from "./config/viewEngine";
 import initWebRoutes from "./route/web";
 import connectDB from "./config/connectDB";
-// import cors from "cors";
+import cors from "cors";
 
 require("dotenv").config(); 
 
 const app = express();
-// app.use(cors({ origin: true }));
+app.use(cors({ origin: true }));
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));

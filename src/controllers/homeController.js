@@ -57,8 +57,8 @@ const putCRUD = async (req, res) => {
   });
 };
 
-const deleteCRUD = async (req, res) => {
-  const id = req.query.id;
+let deleteCRUD = async (req, res) => {
+  let id = req.query.id;
   if (id) {
     await CRUDService.deleteUserById(id);
     return res.send("Delete user succeed");

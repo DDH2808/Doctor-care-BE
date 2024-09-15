@@ -74,6 +74,7 @@ const updateUserData = (data) => {
     try {
       const user = await db.User.findOne({
         where: { id: data.id },
+        raw: false,
       });
       if (user) {
         user.firstName = data.firstName;
@@ -99,7 +100,9 @@ const deleteUserById = (userId) => {
         where: { id: userId },
       });
       if (user) {
-        await user.destroy();
+        await db.User.destroy({
+          where: { id: userId },
+        });
       }
       resolve();
     } catch (e) {

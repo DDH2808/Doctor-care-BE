@@ -16,6 +16,7 @@ const initWebRoutes = (app) => {
   router.get('/delete-crud', homeController.deleteCRUD);
 
   router.post('/api/login', userController.handleLoging);
+  router.get('/api/get-all-users', userController.handleGetAllUser);
 
   router.get("/abc", (req, res) => {
     return res.send("Hello world");

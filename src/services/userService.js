@@ -19,7 +19,7 @@ const handleUserLogin = (email, password) => {
           const check = await bcrypt.compare(password, user.password);
 
           // Cách 2: dùng synchronous  (đồng bộ)
-        //   const check = bcrypt.compareSync(password, user.password);
+          //   const check = bcrypt.compareSync(password, user.password);
 
           if (check) {
             userData.errCode = 0;
@@ -64,6 +64,34 @@ const checkUserEmail = (userEmail) => {
   });
 };
 
+const getAllUsers = (userId) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      let users = "";
+      if (userId === "ALL") {
+        users = await db.User.findAll({
+          attributes: {
+            exclude: ["password"],
+          }
+        });
+      }
+      if(userId && userId !== "ALL"){
+        users = await db.User.findOne({
+          where: { id: userId },
+          attributes: {
+            exclude: ["password"],
+          }
+        });
+      }
+      console.log(users);
+      resolve(users);
+    } catch (error) {
+      reject(error);
+    }
+  });
+};
+
 module.exports = {
   handleUserLogin: handleUserLogin,
+  getAllUsers: getAllUsers,
 };

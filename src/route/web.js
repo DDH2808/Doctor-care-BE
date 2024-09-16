@@ -19,7 +19,7 @@ const initWebRoutes = (app) => {
   router.get('/api/get-all-users', userController.handleGetAllUser);
   router.post('/api/create-new-user', userController.handleCreateNewUser);
   router.post('/api/edit-user', userController.handleEditUser);
-  router.get('/api/delete-user', userController.handleDeleteUser);
+  router.delete('/api/delete-user', userController.handleDeleteUser);
 
   router.get("/abc", (req, res) => {
     return res.send("Hello world");

@@ -25,7 +25,7 @@ const handleUserLogin = (email, password) => {
       if (isExist) {
         //user already exist
         const user = await db.User.findOne({
-          attributes: ["email", "roleId", "password"],
+          attributes: ["email", "roleId", "password", "firstName", "lastName"],
           where: { email: email },
           raw: true,
         });
@@ -199,11 +199,11 @@ const updateUser = (data) => {
 const getAllCodeService = (typeInput) => {
   return new Promise(async (resolve, reject) => {
     try {
-      if(!typeInput) {
+      if (!typeInput) {
         resolve({
           errCode: 1,
-          errMessage: 'Missing required parameters !'
-        })
+          errMessage: "Missing required parameters !",
+        });
       } else {
         let response = {};
         let allcode = await db.Allcode.findAll({

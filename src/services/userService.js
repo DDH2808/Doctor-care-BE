@@ -11,8 +11,8 @@ const hashUserPassword = (password) => {
       const hashPassWord = await bcrypt.hashSync(password, salt);
 
       resolve(hashPassWord);
-    } catch (e) {
-      reject(e);
+    } catch (error) {
+      reject(error);
     }
   });
 };
@@ -57,8 +57,8 @@ const handleUserLogin = (email, password) => {
         userData.errMessage = `Your's Email isn't exist in our system, plz try other email`;
       }
       resolve(userData);
-    } catch (e) {
-      reject(e);
+    } catch (error) {
+      reject(error);
     }
   });
 };
@@ -74,8 +74,8 @@ const checkUserEmail = (userEmail) => {
       } else {
         resolve(false);
       }
-    } catch (e) {
-      reject(e);
+    } catch (error) {
+      reject(error);
     }
   });
 };
@@ -126,8 +126,9 @@ const createNewUser = (data) => {
           lastName: data.lastName,
           address: data.address,
           phonenumber: data.phonenumber,
-          gender: data.gender === "1" ? true : false,
+          gender: data.gender,
           roleId: data.roleId,
+          positionId: data.positionId,
         });
         resolve({
           errCode: 0,

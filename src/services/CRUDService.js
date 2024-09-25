@@ -18,8 +18,8 @@ const createNewUser = async (data) => {
         roleId: data.roleId,
       });
       resolve("Create new user succeed");
-    } catch (e) {
-      reject(e);
+    } catch (error) {
+      reject(error);
     }
   });
 };
@@ -32,8 +32,8 @@ const hashUserPassword = (password) => {
       const hashPassWord = await bcrypt.hashSync(password, salt);
 
       resolve(hashPassWord);
-    } catch (e) {
-      reject(e);
+    } catch (error) {
+      reject(error);
     }
   });
 };
@@ -45,8 +45,8 @@ const getAllUser = () => {
         raw: true,
       });
       resolve(users);
-    } catch (e) {
-      reject(e);
+    } catch (error) {
+      reject(error);
     }
   });
 };
@@ -63,8 +63,8 @@ const getUserInfoById = (userId) => {
       } else {
         resolve({});
       }
-    } catch (e) {
-      reject(e);
+    } catch (error) {
+      reject(error);
     }
   });
 };
@@ -87,8 +87,8 @@ const updateUserData = (data) => {
       } else {
         resolve();
       }
-    } catch (e) {
-      console.log(e);
+    } catch (error) {
+      console.log(error);
     }
   });
 };
@@ -105,8 +105,8 @@ const deleteUserById = (userId) => {
         });
       }
       resolve();
-    } catch (e) {
-      reject(e);
+    } catch (error) {
+      reject(error);
     }
   });
 };

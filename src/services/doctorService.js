@@ -1,5 +1,6 @@
 import { where } from "sequelize";
 import db from "../models/index";
+import { raw } from "body-parser";
 
 const getTopDoctorHomeService = (limitInput) => {
   return new Promise(async (resolve, reject) => {
@@ -54,33 +55,82 @@ const getAllDoctorsService = () => {
 const saveDetailInforDoctor = (inputData) => {
   return new Promise(async (resolve, reject) => {
     try {
-      console.log("input data: ",inputData)
-      if(!inputData.doctorId || !inputData.contentHTML || !inputData.contentMarkdown) {
-        resolve({
+      if (
+        !inputData.id ||
+        !inputData.contentHTML ||
+        !inputData.contentMarkdown
+      ) {
+        reject({
           errCode: 1,
-          errMessage: "Missing required parameters 123",
-        })
+          errMessage: "Missing required parameters",
+        });
       } else {
         await db.Markdown.create({
           contentHTML: inputData.contentHTML,
           contentMarkdown: inputData.contentMarkdown,
           description: inputData.description,
-          doctorId: inputData.doctorId
-        }
-      )
+          doctorId: inputData.id,
+        });
         resolve({
           errCode: 0,
-          errMessage: "Save detail infor doctor success!"
-        })
+          errMessage: "Save detail infor doctor success!",
+        });
       }
     } catch (error) {
       reject(error);
     }
-  })
-}
+  });
+};
+
+const getDetailDoctorByIdService = (inputId) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      if (!inputId) {
+        resolve({
+          errCode: 1,
+          errMessage: "Missing required parameters!",
+        });
+      } else {
+        let data = await db.User.findOne({
+          where: {
+            id: inputId,
+          },
+          attributes: {
+            exclude: ["password"],
+          },
+          include: [
+            {
+              model: db.Markdown,
+              attributes: ["description", "contentHTML", "contentMarkdown"],
+            },
+            {
+              model: db.Allcode,
+              as: "positionData",
+              attributes: ["valueEn", "valueVi"],
+            },
+          ],
+          raw: false,
+          nest: true,
+        });
+        if (data && data.image) {
+          data.image = new Buffer(data.image, "base64").toString("binary");
+        }
+        if (!data) data = {};
+        resolve({
+          errCode: 0,
+          errMessage: "Add info doctor successfully!",
+          data: data,
+        });
+      }
+    } catch (error) {
+      reject(error);
+    }
+  });
+};
 
 module.exports = {
   getTopDoctorHomeService: getTopDoctorHomeService,
   getAllDoctorsService: getAllDoctorsService,
   saveDetailInforDoctor: saveDetailInforDoctor,
+  getDetailDoctorByIdService: getDetailDoctorByIdService,
 };

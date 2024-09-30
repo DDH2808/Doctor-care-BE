@@ -56,21 +56,36 @@ const saveDetailInforDoctor = (inputData) => {
   return new Promise(async (resolve, reject) => {
     try {
       if (
-        !inputData.id ||
+        !inputData.doctorId ||
         !inputData.contentHTML ||
-        !inputData.contentMarkdown
+        !inputData.contentMarkdown ||
+        !inputData.action
       ) {
-        reject({
+        resolve({
           errCode: 1,
           errMessage: "Missing required parameters",
         });
       } else {
-        await db.Markdown.create({
-          contentHTML: inputData.contentHTML,
-          contentMarkdown: inputData.contentMarkdown,
-          description: inputData.description,
-          doctorId: inputData.id,
-        });
+        if (inputData.action === "CREATE") {
+          await db.Markdown.create({
+            contentHTML: inputData.contentHTML,
+            contentMarkdown: inputData.contentMarkdown,
+            description: inputData.description,
+            doctorId: inputData.doctorId,
+          });
+        } else if (inputData.action === "EDIT") {
+          let doctorMarkdown = await db.Markdown.findOne({
+            where: { doctorId: inputData.doctorId },
+            raw: false,
+          });
+          if (doctorMarkdown) {
+            doctorMarkdown.contentHTML = inputData.contentHTML;
+            doctorMarkdown.contentMarkdown = inputData.contentMarkdown;
+            doctorMarkdown.description = inputData.description;
+            doctorMarkdown.updateAt = new Date();
+            await doctorMarkdown.save();
+          }
+        }
         resolve({
           errCode: 0,
           errMessage: "Save detail infor doctor success!",
@@ -113,12 +128,11 @@ const getDetailDoctorByIdService = (inputId) => {
           nest: true,
         });
         if (data && data.image) {
-          data.image = new Buffer(data.image, "base64").toString("binary");
+          data.image = Buffer.from(data.image, "base64").toString("binary");
         }
         if (!data) data = {};
         resolve({
           errCode: 0,
-          errMessage: "Add info doctor successfully!",
           data: data,
         });
       }

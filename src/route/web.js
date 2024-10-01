@@ -32,6 +32,8 @@ const initWebRoutes = (app) => {
     doctorController.getDetailDoctorById
   );
 
+  router.post("/api/bulk-create-schedule", doctorController.bulkCreateSchedule);
+
   router.get("/abc", (req, res) => {
     return res.send("Hello world");
   });

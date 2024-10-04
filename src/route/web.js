@@ -42,6 +42,11 @@ const initWebRoutes = (app) => {
     doctorController.getExtraInforDoctorById
   );
 
+  router.get(
+    "/api/get-profile-doctor-by-id",
+    doctorController.getProfileDoctorById
+  );
+
   router.get("/abc", (req, res) => {
     return res.send("Hello world");
   });

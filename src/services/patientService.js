@@ -1,16 +1,32 @@
-import { where } from "sequelize";
 import db from "../models/index";
 require("dotenv").config();
+import emailService from "./emailService";
 
 const postBookAppointmentService = (data) => {
   return new Promise(async (resolve, reject) => {
+    console.log(data);
     try {
-      if (!data.email || !data.doctorId || !data.timeType || !data.date) {
+      if (
+        !data.email ||
+        !data.doctorId ||
+        !data.timeType ||
+        !data.date ||
+        !data.fullName
+      ) {
         resolve({
           errCode: 1,
           errMessage: "Missing require parameter...",
         });
       } else {
+        await emailService.sendSimpleEmail({
+          receiverEmail: data.email,
+          patientName: data.fullName,
+          time: data.time,
+          doctorName: data.doctorName,
+          language: data.language,
+          redirectLink: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+        });
+
         // upsert patient
         let user = await db.User.findOrCreate({
           where: { email: data.email },

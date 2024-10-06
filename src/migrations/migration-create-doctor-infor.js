@@ -1,4 +1,7 @@
 "use strict";
+
+const specialty = require("../models/specialty");
+
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     await queryInterface.createTable("Doctor_Infor", {
@@ -11,6 +14,12 @@ module.exports = {
       doctorId: {
         type: Sequelize.INTEGER,
         allowNull: false,
+      },
+      specialtyId: {
+        type: Sequelize.INTEGER,
+      },
+      clinicId: {
+        type: Sequelize.INTEGER,
       },
       priceId: {
         type: Sequelize.STRING,

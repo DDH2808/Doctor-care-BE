@@ -53,6 +53,11 @@ const initWebRoutes = (app) => {
     patientController.postBookAppointment
   );
 
+  router.post(
+    "/api/verify-book-appointment",
+    patientController.postVerifyBookAppointment
+  );
+
   router.get("/abc", (req, res) => {
     return res.send("Hello world");
   });

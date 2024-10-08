@@ -1,4 +1,3 @@
-const { name } = require("body-parser");
 const db = require("../models");
 
 const createSpecialtyService = (data) => {

@@ -68,6 +68,11 @@ const initWebRoutes = (app) => {
   );
 
   router.post("/api/create-new-clinic", clinicController.createClinic);
+  router.get("/api/get-clinic", clinicController.getAllClinic);
+  router.get(
+    "/api/get-detail-clinic-by-id",
+    clinicController.getDetailClinicById
+  );
 
   router.get("/abc", (req, res) => {
     return res.send("Hello world");
